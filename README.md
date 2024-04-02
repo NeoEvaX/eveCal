@@ -25,7 +25,7 @@ all using `./goose.sh`
   test          run unit tests
   build         build a binary
   dockerbuild   build project into a docker container image
-  start         build and run local project
+  dev         build and run local project
   css           build tailwindcss
   css-watch     watch build tailwindcss
 ```

@@ -12,11 +12,11 @@ var (
 	DB *Queries
 )
 
-func Setup(logger *slog.Logger) {
+func Setup() {
 
 	dbpool, err := pgxpool.New(context.Background(), os.Getenv("DATABASE_URL"))
 	if err != nil {
-		logger.Error("Unable to create connection pool:", err)
+		slog.Error("Unable to create connection pool:", err)
 		os.Exit(1)
 	}
 

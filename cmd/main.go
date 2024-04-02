@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"errors"
-	"fmt"
 	"log"
 	"log/slog"
 	"net/http"
@@ -15,6 +14,7 @@ import (
 	"github.com/neoevax/eveCal/internal/auth"
 	"github.com/neoevax/eveCal/internal/db"
 	"github.com/neoevax/eveCal/internal/handlers"
+	"github.com/neoevax/eveCal/internal/session"
 
 	m "github.com/neoevax/eveCal/internal/middleware"
 
@@ -43,8 +43,11 @@ func main() {
 	r := chi.NewRouter()
 
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
-	db.Setup(logger)
-	auth.SetupESI()
+	slog.SetDefault(logger)
+
+	db.Setup()
+	auth.Setup()
+	session.Setup()
 
 	fileServer := http.FileServer(http.Dir("./static"))
 	r.Handle("/static/*", http.StripPrefix("/static/", fileServer))
@@ -52,13 +55,15 @@ func main() {
 	r.Group(func(r chi.Router) {
 		r.Use(
 			middleware.Logger,
+			middleware.Recoverer,
 			m.TextHTMLMiddleware,
 			m.CSPMiddleware,
+			session.Scs.LoadAndSave,
 		)
 
 		//r.NotFound(handlers.NewNotFoundHandler().ServeHTTP)
 
-		r.Get("/", handlers.NewHomeHandler(handlers.GetHomeHandlerParams{
+		r.Get("/", handlers.NewHomeHandler(handlers.HomeHandler{
 			UserStore: db.DB,
 		}).ServeHTTP)
 
@@ -84,17 +89,17 @@ func main() {
 		err := srv.ListenAndServe()
 
 		if errors.Is(err, http.ErrServerClosed) {
-			fmt.Printf("server closed\n")
+			slog.Info("server closed")
 		} else if err != nil {
-			fmt.Printf("error starting server: %s\n", err)
+			slog.Error("error starting server: %s\n", err)
 			os.Exit(1)
 		}
 	}()
 
-	logger.Info("Server started", slog.String("port", port))
+	slog.Info("Server started", slog.String("port", port))
 	<-killSig
 
-	logger.Info("Shutting down server")
+	slog.Info("Shutting down server")
 
 	// Create a context with a timeout for shutdown
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
@@ -102,10 +107,10 @@ func main() {
 
 	// Attempt to gracefully shut down the server
 	if err := srv.Shutdown(ctx); err != nil {
-		logger.Error("Server shutdown failed", slog.Any("err", err))
+		slog.Error("Server shutdown failed", slog.Any("err", err))
 		os.Exit(1)
 	}
 
-	logger.Info("Server shutdown complete")
+	slog.Info("Server shutdown complete")
 
 }

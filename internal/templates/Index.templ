@@ -5,13 +5,13 @@ import (
 	"github.com/neoevax/eveCal/internal/templates/pages"
 )
 
-templ Index() {
+templ Index(name string) {
 	@layout.Base() {
 		<div>
 			Welcome Signed in user
 		</div>
 		<div>
-			@esiLogin.Login()
+			{ name }
 		</div>
 	}
 }
@@ -20,6 +20,9 @@ templ GuestIndex() {
 	@layout.Base() {
 		<div>
 			Welcome guest
+		</div>
+		<div>
+			@esiLogin.Login()
 		</div>
 	}
 }
