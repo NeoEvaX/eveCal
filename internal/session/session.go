@@ -6,6 +6,7 @@ import (
 
 	"github.com/alexedwards/scs/v2"
 	"github.com/antihax/goesi"
+	"golang.org/x/oauth2"
 )
 
 var (
@@ -14,6 +15,7 @@ var (
 
 func init() {
 	gob.Register(goesi.VerifyResponse{})
+	gob.Register(oauth2.Token{})
 }
 
 func Setup() {

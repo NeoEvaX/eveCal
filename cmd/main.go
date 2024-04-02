@@ -42,9 +42,11 @@ func main() {
 
 	r := chi.NewRouter()
 
+	// Set up the logger
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
 	slog.SetDefault(logger)
 
+	// Set up Database, Auth, and Session
 	db.Setup()
 	auth.Setup()
 	session.Setup()

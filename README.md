@@ -1,6 +1,4 @@
 ## Scripts
-`sqlc generate` Generates new database files
-
 `lsof -i tcp:3000` find current process on that port
 
 ## Goose Commands
@@ -20,12 +18,14 @@ all using `./goose.sh`
 ```
  Choose a make command to run
 
-  init          initialize project (make init module=github.com/user/project)
-  vet           vet code
-  test          run unit tests
-  build         build a binary
-  dockerbuild   build project into a docker container image
-  dev         build and run local project
-  css           build tailwindcss
-  css-watch     watch build tailwindcss
+  init              initialize project (make init module=github.com/user/project)
+  vet               vet code
+  test              run unit tests
+  build             build a binary
+  dev               build and run local project
+  css               build tailwindcss
+  css-watch         watch build tailwindcss
+  temple-generate   generate templates
+  temple-watch      watch generate templates
+  sqlc-generate     generate sqlc files
 ```

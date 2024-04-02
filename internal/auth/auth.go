@@ -1,18 +1,21 @@
 package auth
 
 import (
+	"context"
 	"crypto/rand"
 	"encoding/base64"
+	"errors"
 	"log/slog"
 	"net/http"
 	"os"
 
 	"github.com/alexedwards/scs/v2"
 	"github.com/antihax/goesi"
+	"golang.org/x/oauth2"
 )
 
 var (
-	ESI              *goesi.APIClient
+	EsiClient        *goesi.APIClient
 	SSOAuthenticator *goesi.SSOAuthenticator
 	scopes           []string
 )
@@ -22,7 +25,7 @@ func Setup() {
 	httpClient := &http.Client{}
 	// call Status endpoint
 	scopes = []string{"esi-calendar.respond_calendar_events.v1", "esi-calendar.read_calendar_events.v1"}
-	ESI = goesi.NewAPIClient(httpClient, "EveCal (ian.kremer@gmail.com, @neoevax on Discord")
+	EsiClient = goesi.NewAPIClient(httpClient, "EveCal (ian.kremer@gmail.com, @neoevax on Discord")
 	SSOAuthenticator = goesi.NewSSOAuthenticator(httpClient, os.Getenv("CLIENT_ID"), os.Getenv("SECRET_KEY"), "http://localhost:3000/api/esi/callback", scopes)
 }
 
@@ -51,7 +54,7 @@ func EveSSOAnswer(w http.ResponseWriter, r *http.Request, s *scs.SessionManager)
 
 	// Verify the state matches our randomly generated string from earlier.
 	if s.Get(r.Context(), "state") != state {
-		return http.StatusInternalServerError, nil //errors.New("Invalid State.")
+		return http.StatusInternalServerError, errors.New("invalid scopestate")
 	}
 
 	// Exchange the code for an Access and Refresh token.
@@ -59,13 +62,12 @@ func EveSSOAnswer(w http.ResponseWriter, r *http.Request, s *scs.SessionManager)
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
-	slog.Info("Token", slog.String("token", token.AccessToken))
 
 	// Obtain a token source (automaticlly pulls refresh as needed)
 	tokSrc := SSOAuthenticator.TokenSource(token)
 
 	// Assign an auth context to the calls
-	//auth := context.WithValue(context.TODO(), goesi.ContextOAuth2, tokSrc.Token)
+	s.Put(r.Context(), "token", &token)
 
 	// Verify the client (returns clientID)
 	v, err := SSOAuthenticator.Verify(tokSrc)
@@ -86,4 +88,10 @@ func EveSSOAnswer(w http.ResponseWriter, r *http.Request, s *scs.SessionManager)
 	// Redirect to the front page for now.
 	http.Redirect(w, r, "/", http.StatusFound)
 	return http.StatusMovedPermanently, nil
+}
+
+func GetTokenContext(oauth2Token *oauth2.Token) context.Context {
+	tokSrc := SSOAuthenticator.TokenSource(oauth2Token)
+	ctx := context.WithValue(context.Background(), goesi.ContextOAuth2, tokSrc)
+	return ctx
 }

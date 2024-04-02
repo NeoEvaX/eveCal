@@ -33,16 +33,6 @@ test:
 build: test
 	make css && make templ-generate && go build -o ./bin/$(APP_NAME) ./cmd/$(APP_NAME)/main.go
 
-## docker-build: build project into a docker container image
-.PHONY: docker-build
-docker-build: test
-	GOPROXY=direct docker buildx build -t ${name} .
-
-## docker-run: run project in a container
-.PHONY: docker-run
-docker-run:
-	docker run -it --rm -p 8080:8080 ${name}
-
 ## start: build and run local project
 .PHONY: dev
 dev: 
@@ -67,3 +57,8 @@ templ-generate:
 .PHONY: templ-watch
 templ-watch:
 	templ generate --watch
+
+## sqlc-generate: generate sqlc files
+.PHONY: sqlc-generate
+templ-watch:
+	sqlc generate
