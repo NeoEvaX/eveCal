@@ -30,7 +30,6 @@ func Setup() {
 }
 
 func EveSSO(w http.ResponseWriter, r *http.Request, s *scs.SessionManager) (int, error) {
-
 	// Generate a random state string
 	b := make([]byte, 16)
 	rand.Read(b)
@@ -47,7 +46,6 @@ func EveSSO(w http.ResponseWriter, r *http.Request, s *scs.SessionManager) (int,
 }
 
 func EveSSOAnswer(w http.ResponseWriter, r *http.Request, s *scs.SessionManager) (int, error) {
-
 	// get our code and state
 	code := r.FormValue("code")
 	state := r.FormValue("state")
@@ -62,6 +60,7 @@ func EveSSOAnswer(w http.ResponseWriter, r *http.Request, s *scs.SessionManager)
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
+	slog.Info("Token Info", slog.Any("Token", token))
 
 	// Obtain a token source (automaticlly pulls refresh as needed)
 	tokSrc := SSOAuthenticator.TokenSource(token)
@@ -71,13 +70,12 @@ func EveSSOAnswer(w http.ResponseWriter, r *http.Request, s *scs.SessionManager)
 
 	// Verify the client (returns clientID)
 	v, err := SSOAuthenticator.Verify(tokSrc)
-	slog.Info("Character Info",
-		slog.String("CharacterName", v.CharacterName),
-		slog.String("CharacterOwnerHash", v.CharacterOwnerHash),
-		slog.String("ExpiresOn", v.ExpiresOn),
-		slog.String("Scopes", v.Scopes),
-		slog.String("TokenType", v.TokenType))
-
+	// slog.Info("Character Info",
+	// slog.String("CharacterName", v.CharacterName),
+	// slog.String("CharacterOwnerHash", v.CharacterOwnerHash),
+	// slog.String("ExpiresOn", v.ExpiresOn),
+	// slog.String("Scopes", v.Scopes),
+	// slog.String("TokenType", v.TokenType))
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}

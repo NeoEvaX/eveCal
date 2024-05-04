@@ -8,12 +8,9 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-var (
-	DB *Queries
-)
+var DB *Queries
 
 func Setup() {
-
 	dbpool, err := pgxpool.New(context.Background(), os.Getenv("DATABASE_URL"))
 	if err != nil {
 		slog.Error("Unable to create connection pool:", err)

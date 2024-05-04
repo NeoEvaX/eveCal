@@ -9,9 +9,7 @@ import (
 	"golang.org/x/oauth2"
 )
 
-var (
-	Scs *scs.SessionManager
-)
+var Scs *scs.SessionManager
 
 func init() {
 	gob.Register(goesi.VerifyResponse{})
@@ -19,9 +17,8 @@ func init() {
 }
 
 func Setup() {
-
 	Scs = scs.New()
-	//sessionManager.Store = pgxstore.New(db.Queries)
+	// sessionManager.Store = pgxstore.New(db.Queries)
 
 	Scs.Lifetime = 24 * time.Hour
 

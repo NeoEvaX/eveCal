@@ -8,8 +8,7 @@ import (
 	"github.com/neoevax/eveCal/internal/session"
 )
 
-type GetEsiCallbackHandler struct {
-}
+type GetEsiCallbackHandler struct{}
 
 func NewGetEsiCallbackHandler() *GetEsiCallbackHandler {
 	return &GetEsiCallbackHandler{}

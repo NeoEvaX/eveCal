@@ -23,7 +23,6 @@ type Nonces struct {
 }
 
 func generateRandomString(length int) string {
-
 	bytes := make([]byte, length)
 	_, err := rand.Read(bytes)
 	if err != nil {
@@ -50,7 +49,7 @@ func CSPMiddleware(next http.Handler) http.Handler {
 		ctx := context.WithValue(r.Context(), NonceKey, nonceSet)
 		// insert the nonces into the content security policy header
 		cspHeader := fmt.Sprintf("default-src 'self'; script-src 'nonce-%s' 'nonce-%s' ; style-src 'nonce-%s' '%s';", nonceSet.Htmx, nonceSet.ResponseTargets, nonceSet.Tw, htmxCSSHash)
-		//cspHeader := fmt.Sprintf("default-src 'self'; script-src 'nonce-%s' 'nonce-%s' ; style-src 'nonce-%s';", nonceSet.Htmx, nonceSet.ResponseTargets, nonceSet.Tw)
+		// cspHeader := fmt.Sprintf("default-src 'self'; script-src 'nonce-%s' 'nonce-%s' ; style-src 'nonce-%s';", nonceSet.Htmx, nonceSet.ResponseTargets, nonceSet.Tw)
 		w.Header().Set("Content-Security-Policy", cspHeader)
 
 		next.ServeHTTP(w, r.WithContext(ctx))
@@ -66,7 +65,6 @@ func TextHTMLMiddleware(next http.Handler) http.Handler {
 
 // get the Nonce from the context, it is a struct called Nonces, so we can get the nonce we need by the key, i.e. HtmxNonce
 func GetNonces(ctx context.Context) any {
-
 	nonceSet := ctx.Value(NonceKey)
 	if nonceSet == nil {
 		log.Fatal("nooo no nonces")

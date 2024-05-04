@@ -33,8 +33,7 @@ func TokenFromCookie(r *http.Request) string {
 }
 
 func main() {
-
-	//load environment variables
+	// load environment variables
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Error loading .env file")
@@ -63,7 +62,7 @@ func main() {
 			session.Scs.LoadAndSave,
 		)
 
-		//r.NotFound(handlers.NewNotFoundHandler().ServeHTTP)
+		// r.NotFound(handlers.NewNotFoundHandler().ServeHTTP)
 
 		r.Get("/", handlers.NewHomeHandler(handlers.HomeHandler{
 			UserStore: db.DB,
@@ -74,7 +73,7 @@ func main() {
 		r.Get("/auth/esi/login", handlers.NewGetEsiAuthHandler().ServeHTTP)
 	})
 
-	//exit process immediately upon sigterm
+	// exit process immediately upon sigterm
 	killSig := make(chan os.Signal, 1)
 
 	signal.Notify(killSig, os.Interrupt, syscall.SIGTERM)
@@ -114,5 +113,4 @@ func main() {
 	}
 
 	slog.Info("Server shutdown complete")
-
 }

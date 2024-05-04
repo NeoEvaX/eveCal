@@ -23,6 +23,11 @@ init:
 vet:
 	go vet $(PACKAGES)
 
+## vet: vet code
+.PHONY: fmt
+fmt:
+	gofumpt -l -w .
+
 ## test: run unit tests
 .PHONY: test
 test:
@@ -35,7 +40,7 @@ build: test
 
 ## start: build and run local project
 .PHONY: dev
-dev: 
+dev:
 	go build -o ./tmp/$(APP_NAME) ./cmd/$(APP_NAME)/main.go && air
 
 ## css: build tailwindcss
@@ -60,5 +65,5 @@ templ-watch:
 
 ## sqlc-generate: generate sqlc files
 .PHONY: sqlc-generate
-templ-watch:
+sqlc-generate:
 	sqlc generate

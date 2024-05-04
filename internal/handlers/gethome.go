@@ -27,7 +27,6 @@ func NewHomeHandler(params HomeHandler) *HomeHandler {
 }
 
 func (h *HomeHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-
 	//_, claims, _ := jwtauth.FromContext(r.Context())
 
 	//_, ok := claims["email"].(string)
@@ -50,7 +49,6 @@ func (h *HomeHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 		ctx := auth.GetTokenContext(&token)
 		info, _, err := auth.EsiClient.ESI.CalendarApi.GetCharactersCharacterIdCalendar(ctx, v.CharacterID, nil)
-
 		if err != nil {
 			slog.Error("Error getting calendar events", slog.Any("Error", err))
 			http.Error(w, "Error rendering template", http.StatusInternalServerError)

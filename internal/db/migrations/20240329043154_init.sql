@@ -1,18 +1,30 @@
 -- +goose Up
 -- +goose StatementBegin
-CREATE TABLE authors (
-  id   BIGSERIAL PRIMARY KEY,
-  name text      NOT NULL,
-  bio  text
+CREATE TABLE user (
+  userId    integer PRIMARY KEY,
+  charaterOwnerHash     text      NOT NULL,
 );
 
-CREATE TABLE sessions (
-	token TEXT PRIMARY KEY,
-	data BYTEA NOT NULL,
-	expiry TIMESTAMPTZ NOT NULL
+CREATE TABLE character (
+	characterId          integer PRIMARY KEY,
+	charaterOwnerHash    text NOT NULL,
+	expiry               TIMESTAMPTZ NOT NULL
 );
 
-CREATE INDEX sessions_expiry_idx ON sessions (expiry);
+CREATE TABLE token (
+	tokenId 		integer PRIMARY KEY,
+  	characterId 	integer NOT NULL,
+	access_token  	text NOT NULL,
+	token_type 		text NOT NULL,
+  	refresh_token 	text NOT NULL,
+	expiry 			TIMESTAMPTZ NOT NULL
+);
+
+CREATE TABLE scope (
+	scopeId integer PRIMARY KEY,
+	data    BYTEA NOT NULL,
+	expiry 	TIMESTAMPTZ NOT NULL
+);
 -- +goose StatementEnd
 
 -- +goose Down

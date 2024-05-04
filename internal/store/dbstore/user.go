@@ -23,7 +23,6 @@ func NewUserStore() *UserStore {
 }
 
 func (s *UserStore) CreateUser(email string, password string) error {
-
 	for _, user := range s.users {
 		if user.Email == email {
 			return errors.New("user already exists")

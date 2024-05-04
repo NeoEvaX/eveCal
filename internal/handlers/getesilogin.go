@@ -7,8 +7,7 @@ import (
 	"github.com/neoevax/eveCal/internal/session"
 )
 
-type GetEsiAuthHandler struct {
-}
+type GetEsiAuthHandler struct{}
 
 func NewGetEsiAuthHandler() *GetEsiAuthHandler {
 	return &GetEsiAuthHandler{}
