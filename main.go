@@ -85,7 +85,6 @@ func main() {
 		Addr:    url + ":" + port,
 		Handler: r,
 	}
-
 	go func() {
 		err := srv.ListenAndServe()
 

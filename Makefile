@@ -23,7 +23,7 @@ init:
 vet:
 	go vet $(PACKAGES)
 
-## vet: vet code
+## fmt: format code
 .PHONY: fmt
 fmt:
 	gofumpt -l -w .

@@ -1,8 +1,13 @@
+# EveCal README
+
 ## Scripts
+
 `lsof -i tcp:3000` find current process on that port
 
 ## Goose Commands
+
 all using `./goose.sh`
+
 `create init sql` change init with a name
 
 `status` Get current migration status
@@ -15,7 +20,6 @@ all using `./goose.sh`
 
 ## Develop
 
-```
  Choose a make command to run
 
   init              initialize project (make init module=github.com/user/project)
@@ -28,4 +32,3 @@ all using `./goose.sh`
   temple-generate   generate templates
   temple-watch      watch generate templates
   sqlc-generate     generate sqlc files
-```
