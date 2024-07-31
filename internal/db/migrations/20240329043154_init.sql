@@ -1,10 +1,10 @@
 -- +goose Up
-CREATE TABLE users (
+create table users (
 	userId			integer	PRIMARY KEY,
 	characterOwnerHash	text	NOT NULL
 );
 
-CREATE TABLE characters (
+create table characters (
 	characterId		integer PRIMARY KEY,
 	characterOwnerHash	text NOT NULL,
 	expiry			TIMESTAMPTZ NOT NULL,
@@ -12,7 +12,7 @@ CREATE TABLE characters (
 	name			text NOT NULL
 );
 
-CREATE TABLE tokens (
+create table tokens (
 	tokenId 		integer PRIMARY KEY,
 	characterId		integer NOT NULL,
 	access_token		text NOT NULL,
@@ -21,13 +21,13 @@ CREATE TABLE tokens (
 	expiry 			TIMESTAMPTZ NOT NULL
 );
 
-CREATE TABLE scopes (
+create table scopes (
 	scopeId integer PRIMARY KEY,
 	data    BYTEA NOT NULL,
 	expiry 	TIMESTAMPTZ NOT NULL
 );
 
-CREATE TABLE events (
+create table events (
 	eventId		integer PRIMARY KEY,
 	characterId	integer NOT NULL,
 	date		DATE NOT NULL,
@@ -39,13 +39,13 @@ CREATE TABLE events (
 	title		text NOT NULL
 );
 -- +goose Down
-DROP TABLE events;
+drop table events;
 
-DROP TABLE scopes;
+drop table scopes;
 
-DROP TABLE tokens;
+drop table tokens;
 
-DROP TABLE characters;
+drop table characters;
 
-DROP TABLE users;
+drop table users;
 
