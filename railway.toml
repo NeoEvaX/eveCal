@@ -1,5 +1,3 @@
-[build]
-buildCommand = "make deploy"
-
-[deploy]
-startCommand = "./bin/eveCal"
+[builder]
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"

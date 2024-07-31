@@ -1,19 +1,18 @@
 -- +goose Up
--- +goose StatementBegin
-CREATE TABLE user (
-  userId		integer PRIMARY KEY,
-  charaterOwnerHash     text      NOT NULL,
+CREATE TABLE users (
+	userId			integer	PRIMARY KEY,
+	characterOwnerHash	text	NOT NULL
 );
 
-CREATE TABLE character (
+CREATE TABLE characters (
 	characterId		integer PRIMARY KEY,
-	charaterOwnerHash	text NOT NULL,
+	characterOwnerHash	text NOT NULL,
 	expiry			TIMESTAMPTZ NOT NULL,
 	portraitUrl		text NOT NULL,
-	name			text NOT NULL,
+	name			text NOT NULL
 );
 
-CREATE TABLE token (
+CREATE TABLE tokens (
 	tokenId 		integer PRIMARY KEY,
 	characterId		integer NOT NULL,
 	access_token		text NOT NULL,
@@ -22,13 +21,13 @@ CREATE TABLE token (
 	expiry 			TIMESTAMPTZ NOT NULL
 );
 
-CREATE TABLE scope (
+CREATE TABLE scopes (
 	scopeId integer PRIMARY KEY,
 	data    BYTEA NOT NULL,
 	expiry 	TIMESTAMPTZ NOT NULL
 );
 
-CREATE TABLE event (
+CREATE TABLE events (
 	eventId		integer PRIMARY KEY,
 	characterId	integer NOT NULL,
 	date		DATE NOT NULL,
@@ -37,20 +36,16 @@ CREATE TABLE event (
 	ownerType	text NOT NULL,
 	response	text NOT NULL,
 	text		text NOT NULL,
-	title		text NOT NULL,
+	title		text NOT NULL
 );
--- +goose StatementEnd
 -- +goose Down
--- +goose StatementBegin
-DROP TABLE event;
+DROP TABLE events;
 
-DROP TABLE scope;
+DROP TABLE scopes;
 
-DROP TABLE token;
+DROP TABLE tokens;
 
-DROP TABLE character;
+DROP TABLE characters;
 
-DROP TABLE user;
--- +goose StatementEnd
-
+DROP TABLE users;
 

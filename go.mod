@@ -3,7 +3,7 @@ module github.com/neoevax/eveCal
 go 1.22
 
 require (
-	github.com/a-h/templ v0.2.707
+	github.com/a-h/templ v0.2.747
 	github.com/alexedwards/scs/v2 v2.8.0
 	github.com/antihax/goesi v0.0.0-20240126031043-6c54d0cb7f95
 	github.com/go-chi/chi/v5 v5.0.12
