@@ -25,6 +25,7 @@ go.work.sum
 
 tmp/
 bin/
+out/
 
 static/css/style.css
 

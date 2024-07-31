@@ -37,12 +37,12 @@ test:
 ## build: build a binary
 .PHONY: build
 build: test
-	make css && make templ-generate && go build -o ./bin/$(APP_NAME) ./cmd/$(APP_NAME)/main.go
+	make css && make templ-generate && go build -o ./out/$(APP_NAME) ./cmd/$(APP_NAME)/main.go
 
 ## deploy: build a binary for deployment
 .PHONY: deploy
-build: 
-	make css && make templ-generate && go build -o ./bin/$(APP_NAME) ./cmd/$(APP_NAME)/main.go
+deploy: 
+	make css && make templ-generate && go build -o ./out/$(APP_NAME) ./cmd/$(APP_NAME)/main.go
 
 ## start: build and run local project
 .PHONY: dev
