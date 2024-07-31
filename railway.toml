@@ -1,2 +1,2 @@
 [build]
-buildCommand = "make build"
+buildCommand = "make deploy"
