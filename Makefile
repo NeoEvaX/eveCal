@@ -1,4 +1,5 @@
 PACKAGES := $(shell go list ./...)
+APP_NAME := 'eveCal'
 name := $(shell basename ${PWD})
 
 all: help
