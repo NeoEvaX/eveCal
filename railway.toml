@@ -2,4 +2,4 @@
 buildCommand = "make deploy"
 
 [deploy]
-startCommand = "./out/eveCal"
+startCommand = "./bin/eveCal"
