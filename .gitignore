@@ -24,7 +24,7 @@ go.work.sum
 .env
 
 tmp/
-bim/
+bin/
 
 .DS_Store
 tailwindcss
