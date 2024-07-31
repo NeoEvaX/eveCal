@@ -96,7 +96,10 @@ func main() {
 	}()
 
 	slog.Info("Server started", slog.String("port", port))
-	<-killSig
+	stop := make(chan os.Signal, 1)
+	signal.Notify(stop, os.Interrupt, syscall.SIGTERM)
+	slog.Info("Press Ctrl + C to exit")
+	<-stop
 
 	slog.Info("Shutting down server")
 
