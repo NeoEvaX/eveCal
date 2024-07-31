@@ -27,7 +27,7 @@ tmp/
 bin/
 out/
 
-static/css/style.css
+# static/css/style.css
 
 .DS_Store
-# tailwindcss
+tailwindcss

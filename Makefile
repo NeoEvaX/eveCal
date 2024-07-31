@@ -42,7 +42,7 @@ build: test
 ## deploy: build a binary for deployment
 .PHONY: deploy
 deploy: 
-	make css && make templ-generate && go build -o ./out/$(APP_NAME) ./cmd/$(APP_NAME)/main.go
+	go build -o ./out/$(APP_NAME) ./cmd/$(APP_NAME)/main.go
 
 ## start: build and run local project
 .PHONY: dev
