@@ -26,5 +26,7 @@ go.work.sum
 tmp/
 bin/
 
+static/css/style.css
+
 .DS_Store
 tailwindcss
