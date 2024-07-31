@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"errors"
-	"log"
 	"log/slog"
 	"net/http"
 	"os"
@@ -33,17 +32,17 @@ func TokenFromCookie(r *http.Request) string {
 }
 
 func main() {
-	// load environment variables
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
-
-	r := chi.NewRouter()
-
 	// Set up the logger
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
 	slog.SetDefault(logger)
+
+	// load environment variables
+	err := godotenv.Load()
+	if err != nil {
+		slog.Info("Error loading .env file")
+	}
+
+	r := chi.NewRouter()
 
 	// Set up Database, Auth, and Session
 	db.Setup()
