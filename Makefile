@@ -42,7 +42,7 @@ build: test
 ## deploy: build a binary for deployment
 .PHONY: deploy
 deploy:
-	go install github.com/a-h/templ/cmd/templ@latest
+	go install github.com/a-h/templ/cmd/templ@latest;
 	make templ-generate && go build -o ./bin/$(APP_NAME) ./cmd/$(APP_NAME)/main.go
 
 ## start: build and run local project
