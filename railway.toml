@@ -1,2 +1,5 @@
 [build]
 buildCommand = "make deploy"
+
+[deploy]
+startCommand = "./out/eveCal"
