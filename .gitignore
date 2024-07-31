@@ -30,4 +30,4 @@ out/
 static/css/style.css
 
 .DS_Store
-tailwindcss
+# tailwindcss
