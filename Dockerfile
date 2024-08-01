@@ -4,11 +4,16 @@ WORKDIR /app
 
 COPY . .
 
-RUN CGO_ENABLED=0 go build -o /server cmd/eveCal/main.go
+RUN go install github.com/a-h/templ/cmd/templ@latest ./
+RUN go install github.com/go-task/task/v3/cmd/task@latest ./
 
-COPY --from=builder /server /server
+COPY go.mod go.sum ./
+RUN go mod tidy
+COPY . .
+RUN task build
 
-ENV PORT=8080
-EXPOSE $PORT
-
-ENTRYPOINT ["/server"]
+FROM scratch
+WORKDIR /app
+COPY --from=builder /build .
+EXPOSE 3000
+CMD [ "/build/server" ]
