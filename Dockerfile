@@ -1,6 +1,6 @@
 FROM golang:1.22.5-bullseye AS builder
 
-WORKDIR /app
+WORKDIR /build
 
 # Install Node.js
 RUN curl -fsSL https://deb.nodesource.com/setup_current.x | bash - && \
