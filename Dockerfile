@@ -21,7 +21,7 @@ COPY . .
 RUN task build
 
 FROM scratch
-WORKDIR /app
+WORKDIR /build
 COPY --from=builder /build .
 EXPOSE 3000
 CMD [ "/build/server" ]
