@@ -1,12 +1,10 @@
-FROM golang:1.21 AS builder
+FROM golang:1.22.5-bullseye AS builder
 
 WORKDIR /app
 
 COPY . .
 
 RUN CGO_ENABLED=0 go build -o /server cmd/eveCal/main.go
-
-FROM gcr.io/distroless/base-debian11 as final
 
 COPY --from=builder /server /server
 

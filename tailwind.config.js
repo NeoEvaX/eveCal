@@ -1,5 +1,10 @@
 /** @type {import('tailwindcss').Config} */
-export const content = ["./templates/**/*.templ"];
+export const content = [
+	"./templates/**/*.templ",
+	"./**/*.html",
+	"./**/*.templ",
+	"./**/*.go",
+];
 export const theme = {
 	extend: {
 		fontFamily: {
@@ -9,4 +14,3 @@ export const theme = {
 };
 export const plugins = [];
 export const corePlugins = { preFlight: true };
-
