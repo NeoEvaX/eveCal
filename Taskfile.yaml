@@ -5,10 +5,10 @@ dotenv:
   - .env.local
 
 env:
-  PORT: 8080
+  PORT: 3000
 
 vars:
-  container_name: app
+  container_name: evecal
   container_tag: latest
 
 tasks:
@@ -21,7 +21,7 @@ tasks:
     deps:
       - task: generate
     cmds:
-      - CGO_ENABLED=0 go build -o build/server cmd/eveCal/main.go
+      - CGO_ENABLED=0 go build -o app/server cmd/eveCal/main.go
 
   sqlc:
     cmds:

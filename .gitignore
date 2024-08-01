@@ -26,6 +26,7 @@ go.work.sum
 
 tmp/
 bin/
+app/
 
 # task file temporary files
 .task

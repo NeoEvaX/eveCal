@@ -37,10 +37,7 @@ func main() {
 	slog.SetDefault(logger)
 
 	// load environment variables
-	err := godotenv.Load()
-	if err != nil {
-		slog.Info("Error loading .env file")
-	}
+	godotenv.Load()
 
 	r := chi.NewRouter()
 
@@ -77,7 +74,7 @@ func main() {
 
 	signal.Notify(killSig, os.Interrupt, syscall.SIGTERM)
 
-	port := gotoolbox.GetEnvWithDefault("PORT", "8080")
+	port := gotoolbox.GetEnvWithDefault("PORT", "3000")
 	url := gotoolbox.GetEnvWithDefault("LISTEN_URL", "localhost")
 
 	srv := &http.Server{
