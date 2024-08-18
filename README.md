@@ -20,15 +20,9 @@ all using `./goose.sh`
 
 ## Develop
 
- Choose a make command to run
+ Choose a Task command to run
 
-  init              initialize project (make init module=github.com/user/project)
-  vet               vet code
-  test              run unit tests
   build             build a binary
   dev               build and run local project
-  css               build tailwindcss
-  css-watch         watch build tailwindcss
-  temple-generate   generate templates
-  temple-watch      watch generate templates
-  sqlc-generate     generate sqlc files
+  container         build a container
+  sqlc              generate sqlc files

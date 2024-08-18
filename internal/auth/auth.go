@@ -70,12 +70,12 @@ func EveSSOAnswer(w http.ResponseWriter, r *http.Request, s *scs.SessionManager)
 
 	// Verify the client (returns clientID)
 	v, err := SSOAuthenticator.Verify(tokSrc)
-	// slog.Info("Character Info",
-	// slog.String("CharacterName", v.CharacterName),
-	// slog.String("CharacterOwnerHash", v.CharacterOwnerHash),
-	// slog.String("ExpiresOn", v.ExpiresOn),
-	// slog.String("Scopes", v.Scopes),
-	// slog.String("TokenType", v.TokenType))
+	slog.Info("Character Info",
+		slog.String("CharacterName", v.CharacterName),
+		slog.String("CharacterOwnerHash", v.CharacterOwnerHash),
+		slog.String("ExpiresOn", v.ExpiresOn),
+		slog.String("Scopes", v.Scopes),
+		slog.String("TokenType", v.TokenType))
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
@@ -83,6 +83,7 @@ func EveSSOAnswer(w http.ResponseWriter, r *http.Request, s *scs.SessionManager)
 	// Save the verification structure on the session for quick access.
 	s.Put(r.Context(), "character", v)
 
+	slog.Info("CharactersHas", slog.Any("charaterHas", v.CharacterOwnerHash))
 	// Redirect to the front page for now.
 	http.Redirect(w, r, "/", http.StatusFound)
 	return http.StatusMovedPermanently, nil

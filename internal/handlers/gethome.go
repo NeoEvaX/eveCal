@@ -56,15 +56,16 @@ func (h *HomeHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}
 
 		slog.Info("Info", slog.Any("Info", info))
-		for _, event := range info {
-			event, _, err := auth.EsiClient.ESI.CalendarApi.GetCharactersCharacterIdCalendarEventId(ctx, v.CharacterID, event.EventId, nil)
-			if err != nil {
-				slog.Error("Error getting calendar events", slog.Any("Error", err))
-				http.Error(w, "Error rendering template", http.StatusInternalServerError)
-				return
-			}
-			slog.Info("Event", slog.Any("Event", event))
-		}
+		// for _, event := range info {
+		// 	event, _, err := auth.EsiClient.ESI.CalendarApi.GetCharactersCharacterIdCalendarEventId(ctx, v.CharacterID, event.EventId, nil)
+		// 	if err != nil {
+		// 		slog.Error("Error getting calendar events", slog.Any("Error", err))
+		// 		http.Error(w, "Error rendering template", http.StatusInternalServerError)
+		// 		return
+		// 	}
+		// 	// slog.Info("Event", slog.Any("Event", event))
+		// }
+		// characters, err := db.DB.GetUserCharacters(ctx, v.CharacterOwnerHash)
 		templates.Index(v.CharacterName).Render(r.Context(), w)
 	} else {
 		slog.Info("No Character")
