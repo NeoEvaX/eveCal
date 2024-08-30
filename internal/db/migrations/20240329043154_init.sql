@@ -1,11 +1,11 @@
 -- +goose Up
 CREATE TABLE users (
-  userId integer PRIMARY KEY,
+  userId SERIAL PRIMARY KEY,
   characterOwnerHash text NOT NULL
 );
 
 CREATE TABLE characters (
-  characterId integer PRIMARY KEY,
+  characterId SERIAL PRIMARY KEY,
   characterOwnerHash text NOT NULL,
   expiry TIMESTAMPTZ NOT NULL,
   portraitUrl text NOT NULL,
@@ -13,7 +13,7 @@ CREATE TABLE characters (
 );
 
 CREATE TABLE tokens (
-  tokenId integer PRIMARY KEY,
+  tokenId SERIAL PRIMARY KEY,
   characterId integer NOT NULL,
   access_token text NOT NULL,
   token_type text NOT NULL,
@@ -22,13 +22,13 @@ CREATE TABLE tokens (
 );
 
 CREATE TABLE scopes (
-  scopeId integer PRIMARY KEY,
+  scopeId SERIAL PRIMARY KEY,
   data BYTEA NOT NULL,
   expiry TIMESTAMPTZ NOT NULL
 );
 
 CREATE TABLE events (
-  eventId integer PRIMARY KEY,
+  eventId SERIAL PRIMARY KEY,
   characterId integer NOT NULL,
   date DATE NOT NULL,
   duration text NOT NULL,

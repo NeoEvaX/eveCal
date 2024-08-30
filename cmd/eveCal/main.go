@@ -43,7 +43,7 @@ func main() {
 
 	// Set up Database, Auth, and Session
 	db.Setup()
-	auth.Setup()
+	auth.Setup(auth.AuthHandlerParams{DataBase: db.DB})
 	session.Setup()
 
 	fileServer := http.FileServer(http.Dir("./static"))

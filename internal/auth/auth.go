@@ -11,6 +11,8 @@ import (
 
 	"github.com/alexedwards/scs/v2"
 	"github.com/antihax/goesi"
+	"github.com/jackc/pgx/v5"
+	"github.com/neoevax/eveCal/internal/db"
 	"golang.org/x/oauth2"
 )
 
@@ -18,9 +20,15 @@ var (
 	EsiClient        *goesi.APIClient
 	SSOAuthenticator *goesi.SSOAuthenticator
 	scopes           []string
+	database         *db.Queries
 )
 
-func Setup() {
+type AuthHandlerParams struct {
+	DataBase *db.Queries
+}
+
+func Setup(params AuthHandlerParams) {
+	database = params.DataBase
 	// create ESI client
 	httpClient := &http.Client{}
 	// call Status endpoint
@@ -70,7 +78,29 @@ func EveSSOAnswer(w http.ResponseWriter, r *http.Request, s *scs.SessionManager)
 
 	// Verify the client (returns clientID)
 	v, err := SSOAuthenticator.Verify(tokSrc)
+	ctx := context.Background()
+	slog.Info("Checking to see if user already exists")
+	user, err := database.GetUser(ctx, v.CharacterOwnerHash)
+	if err == pgx.ErrNoRows {
+		slog.Info("User does not exist, creating")
+		createErr := database.CreateUser(ctx, v.CharacterOwnerHash)
+		if createErr != nil {
+			slog.Error("User Create Error", slog.Any("Error", createErr))
+			return 0, createErr
+		}
+		user, err = database.GetUser(ctx, v.CharacterOwnerHash)
+		if err != nil {
+			return 0, err
+		}
+	} else if err != nil {
+		return 0, err
+	}
+	slog.Info("User", slog.Any("User", user))
+	// characters, err := database.GetUserCharacters(ctx, user.Characterownerhash)
+
+	// slog.Info("characters", slog.Any("characters", characters))
 	slog.Info("Character Info",
+		slog.Any("CharacterInfo", v),
 		slog.String("CharacterName", v.CharacterName),
 		slog.String("CharacterOwnerHash", v.CharacterOwnerHash),
 		slog.String("ExpiresOn", v.ExpiresOn),
